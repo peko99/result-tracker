@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+pyinstaller main.py                 \
+    --name 'result-tracker' -F         \
+    --hidden-import 'configparser'  \
+    --hidden-import 'uvicorn.lifespan.off' \
+    --hidden-import 'uvicorn.lifespan.on' \
+    --hidden-import 'uvicorn.lifespan' \
+    --hidden-import 'uvicorn.protocols.websockets.auto' \
+    --hidden-import 'uvicorn.protocols.websockets.wsproto_impl' \
+    --hidden-import 'uvicorn.protocols.websockets_impl' \
+    --hidden-import 'uvicorn.protocols.http.auto' \
+    --hidden-import 'uvicorn.protocols.http.h11_impl' \
+    --hidden-import 'uvicorn.protocols.http.httptools_impl' \
+    --hidden-import 'uvicorn.protocols.websockets' \
+    --hidden-import 'uvicorn.protocols.http' \
+    --hidden-import 'uvicorn.protocols' \
+    --hidden-import 'uvicorn.loops.auto' \
+    --hidden-import 'uvicorn.loops.asyncio' \
+    --hidden-import 'uvicorn.loops.uvloop' \
+    --hidden-import 'uvicorn.loops' \
+    --hidden-import 'uvicorn.logging' \
+    --clean
