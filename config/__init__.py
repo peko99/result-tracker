@@ -1,4 +1,4 @@
-# Copyright 2021 Group 21 @ PI (120)
+# Copyright 2022 Marin Pejcin
 
 
 from .configs import get_database_config, get_api_config
