@@ -11,15 +11,13 @@ api = FastAPI()
 api.include_router(player.router)
 api.include_router(team.router)
 
-origins = ['*']
+origins = ["*"]
 
 api.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_methods=['*'],
-    allow_headers=['*']
+    CORSMiddleware, allow_origins=origins, allow_methods=["*"], allow_headers=["*"]
 )
 
-@api.get('/')
-async def root ():
-    return { 'status' : 'working' }
+
+@api.get("/")
+async def root():
+    return {"status": "working"}

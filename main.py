@@ -11,5 +11,5 @@ def main():
     uvicorn.run(api, host=get_api_config().host, port=get_api_config().port)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

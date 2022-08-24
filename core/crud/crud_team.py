@@ -9,7 +9,6 @@ from core.schemas.team import TeamCreate, TeamUpdate
 
 
 class CRUDTeam(CRUDBase[Team, TeamCreate, TeamUpdate]):
-
     def get_by_team_name(self, *, team_name: str, db: Session) -> Team:
         return db.query(self.model).filter(self.model.team_name == team_name).first()
 

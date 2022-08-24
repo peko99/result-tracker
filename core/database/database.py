@@ -11,20 +11,20 @@ from config.configs import get_database_config
 
 
 def get_database_url() -> str:
-    '''Gets database URL based on environmental variables'''
+    """Gets database URL based on environmental variables"""
     user = get_database_config().user
     password = get_database_config().password
     host = get_database_config().host
     database = get_database_config().database
 
-    return f'postgresql://{user}:{password}@{host}/{database}'
+    return f"postgresql://{user}:{password}@{host}/{database}"
 
 
 def initialize_database(db_engine):
     if not database_exists(db_engine.url):
-        logging.info('Creating database %s', db_engine.url.database)
+        logging.info("Creating database %s", db_engine.url.database)
         create_database(db_engine.url)
-    
+
 
 engine = create_engine(get_database_url())
 initialize_database(engine)

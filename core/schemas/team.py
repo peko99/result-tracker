@@ -1,8 +1,10 @@
 # Copyright 2022 Marin Pejcin
 
 
-from typing import Optional 
+from typing import Optional, List
 from pydantic import BaseModel
+
+from core.schemas import Player
 
 
 class TeamBase(BaseModel):
@@ -23,6 +25,7 @@ class TeamUpdate(TeamBase):
 
 class Team(TeamBase):
     id: int
+    players: List[Player]
 
     class Config:
         orm_mode = True
