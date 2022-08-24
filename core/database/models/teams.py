@@ -6,10 +6,10 @@ from sqlalchemy import Column, Integer, String
 from core.database.database import Base
 
 
-class User(Base):
-    __tablename__ = 'users'
+class Team(Base):
+    __tablename__ = 'teams'
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    email = Column(String, unique=True)
-    password = Column(String)
+    team_name = Column(String, unique=True)
+    goals_for = Column(Integer)
+    goals_against = Column(Integer)

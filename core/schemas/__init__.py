@@ -1,4 +1,5 @@
 # Copyright 2022 Marin Pejcin
 
 
-from .users import User, UserCreate, UserUpdate
+from .player import Player, PlayerCreate, PlayerUpdate
+from .team import Team, TeamCreate, TeamUpdate

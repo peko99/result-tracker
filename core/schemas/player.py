@@ -5,23 +5,21 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class UserBase(BaseModel):
+class PlayerBase(BaseModel):
     username: Optional[str]
     email: Optional[str]
-    password: Optional[str]
 
 
-class UserCreate(UserBase):
+class PlayerCreate(PlayerBase):
     username: str
     email: str
-    password: str
 
 
-class UserUpdate(UserBase):
+class PlayerUpdate(PlayerBase):
     pass
 
 
-class User(UserBase):
+class Player(PlayerBase):
     id: int
 
     class Config:

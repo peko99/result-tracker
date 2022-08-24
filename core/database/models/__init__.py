@@ -1,4 +1,5 @@
 # Copyright 2022 Marin Pejcin
 
 
-from .users import User
+from .players import Player
+from .teams import Team
