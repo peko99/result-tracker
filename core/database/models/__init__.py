@@ -3,3 +3,4 @@
 
 from .players import Player
 from .teams import Team
+from .games import Game

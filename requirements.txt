@@ -5,3 +5,4 @@ python-dotenv==0.19.2
 httpx==0.22.0
 sqlalchemy==1.4.34
 psycopg2-binary==2.9.3
+sqlalchemy-citext==1.8.0

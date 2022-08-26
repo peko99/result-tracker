@@ -4,12 +4,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from core.routers import player, team
+from core.routers import player, team, game
 
 api = FastAPI()
 
 api.include_router(player.router)
 api.include_router(team.router)
+api.include_router(game.router)
 
 origins = ["*"]
 

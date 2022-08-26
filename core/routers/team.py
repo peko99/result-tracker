@@ -1,12 +1,13 @@
 # Copyright 2022 Marin Pejcin
 
 
+import re
 from typing import Any, List
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from core.crud import crud_team
+from core.crud import crud_team, crud_game
 from dependencies import get_db
 from core.schemas import Team, TeamCreate, TeamUpdate
 
@@ -16,13 +17,19 @@ router = APIRouter(prefix="/team", tags=["team"], dependencies=[Depends(get_db)]
 
 @router.post("", response_model=Team)
 async def create_team(team_in: TeamCreate, db: Session = Depends(get_db)) -> Any:
+    existing_team = crud_team.get_by_team_name(team_name=team_in.team_name, db=db)
+    if existing_team:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Conflict on creating the team. Team with name {team_in.team_name} already exists.",
+        )
     try:
         created_team = crud_team.create(obj_in=team_in, db=db)
     except IntegrityError as _:
         db.rollback()
         raise HTTPException(
             status_code=409,
-            detail=f"Conflict on creating the team. Team with name {team_in.team_name} already exists.",
+            detail=f"Conflict on creating the team.",
         )
     else:
         return created_team
@@ -56,9 +63,10 @@ async def update_team(
     team = crud_team.get(id_=id_, db=db)
     if not team:
         raise HTTPException(status_code=404, detail="Team not found!")
-    updated_team = crud_team.update(db_obj=team, obj_in=team_in, db=db)
-    if not updated_team:
-        raise HTTPException(status_code=409, detail="Team could not be updated")
+    try:
+        updated_team = crud_team.update(db_obj=team, obj_in=team_in, db=db)
+    except IntegrityError as _:
+        raise HTTPException(status_code=409, detail="Team could not be updated.")
     return updated_team
 
 

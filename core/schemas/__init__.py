@@ -3,3 +3,4 @@
 
 from .player import Player, PlayerCreate, PlayerUpdate
 from .team import Team, TeamCreate, TeamUpdate
+from .game import Game, GameCreate, GameUpdate

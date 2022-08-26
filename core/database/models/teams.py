@@ -12,7 +12,12 @@ class Team(Base):
 
     id = Column(Integer, primary_key=True)
     team_name = Column(String, unique=True)
+    games_played = Column(Integer)
+    wins = Column(Integer)
+    draws = Column(Integer)
+    losses = Column(Integer)
     goals_for = Column(Integer)
     goals_against = Column(Integer)
+    points = Column(Integer)
 
     players = relationship("Player", back_populates="team")
