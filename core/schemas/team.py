@@ -14,16 +14,6 @@ class TeamBase(BaseModel):
     losses: Optional[int] = 0
     goals_for: Optional[int] = 0
     goals_against: Optional[int] = 0
-    games_played: Optional[int]
-    points: Optional[int] = 0
-
-    @validator("points", always=True, check_fields=False)
-    def calculate_points(cls, v, values, **kwargs):
-        return 3 * values["wins"] + values["draws"]
-
-    @validator("games_played", always=True, check_fields=False)
-    def calculate_games_played(cls, v, values, **kwargs):
-        return values["wins"] + values["draws"] + values["losses"]
 
 
 class TeamCreate(TeamBase):
@@ -37,6 +27,16 @@ class TeamUpdate(TeamBase):
 class Team(TeamBase):
     id: int
     players: List[Player]
+    games_played: Optional[int]
+    points: Optional[int]
+
+    @validator("points", always=True, check_fields=False)
+    def calculate_points(cls, v, values, **kwargs):
+        return 3 * values["wins"] + values["draws"]
+
+    @validator("games_played", always=True, check_fields=False)
+    def calculate_games_played(cls, v, values, **kwargs):
+        return values["wins"] + values["draws"] + values["losses"]
 
     class Config:
         orm_mode = True

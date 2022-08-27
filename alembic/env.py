@@ -1,12 +1,15 @@
 # Copyright 2022 Marin Pejcin
 
-
+import sys
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+
+
+sys.path = ["", ".."] + sys.path[1:]
 
 from core.database import Base, get_database_url
 

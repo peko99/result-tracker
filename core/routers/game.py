@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 
 from core.crud import crud_game, crud_team
 from dependencies import get_db
-from core.schemas import Game, GameCreate, GameUpdate, TeamUpdate
+from core.schemas import Game, GameCreate, GameUpdate
 
 
 router = APIRouter(prefix="/game", tags=["game"], dependencies=[Depends(get_db)])
@@ -19,31 +19,17 @@ router = APIRouter(prefix="/game", tags=["game"], dependencies=[Depends(get_db)]
 async def create_game(game_in: GameCreate, db: Session = Depends(get_db)) -> Any:
     if game_in.home_team == game_in.away_team:
         raise HTTPException(
-            status_code=400, detail="Home and away team can not be the same team!"
+            status_code=400, detail="Home and away team can not be the same!"
         )
     home_team = crud_team.get(id_=game_in.home_team, db=db)
     if not home_team:
         raise HTTPException(status_code=404, detail="Home team not found!")
-    home_team_update = TeamUpdate()
     away_team = crud_team.get(id_=game_in.away_team, db=db)
     if not away_team:
         raise HTTPException(status_code=404, detail="Away team not found!")
-    away_team_update = TeamUpdate()
-    if game_in.home_goals > game_in.away_goals:
-        home_team_update.wins = home_team.wins + 1
-        away_team_update.losses = away_team.losses + 1
-    if game_in.home_goals < game_in.away_goals:
-        home_team_update.losses = home_team.losses + 1
-        away_team_update.wins = away_team.wins + 1
-    if game_in.home_goals == game_in.away_goals:
-        home_team_update.draws = home_team.draws + 1
-        away_team_update.draws = away_team.draws + 1
-    home_team_update.goals_for = home_team.goals_for + game_in.home_goals
-    home_team_update.goals_against = home_team.goals_against + game_in.away_goals
-    away_team_update.goals_for = away_team.goals_for + game_in.away_goals
-    away_team_update.goals_against = away_team.goals_against + game_in.home_goals
-    crud_team.update(db_obj=away_team, obj_in=away_team_update, db=db)
-    crud_team.update(db_obj=home_team, obj_in=home_team_update, db=db)
+    crud_team.update_stats(
+        home_team=home_team, away_team=away_team, game_in=game_in, db=db
+    )
     try:
         created_game = crud_game.create(obj_in=game_in, db=db)
     except IntegrityError as _:

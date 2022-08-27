@@ -1,8 +1,8 @@
 """Add all tables
 
-Revision ID: d4a7971bc857
+Revision ID: 36e79ee4e077
 Revises: 
-Create Date: 2022-08-26 17:42:02.366205
+Create Date: 2022-08-27 17:17:56.982328
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd4a7971bc857'
+revision = '36e79ee4e077'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,13 +30,11 @@ def upgrade():
     op.create_table('teams',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('team_name', sa.String(), nullable=True),
-    sa.Column('games_played', sa.Integer(), nullable=True),
     sa.Column('wins', sa.Integer(), nullable=True),
     sa.Column('draws', sa.Integer(), nullable=True),
     sa.Column('losses', sa.Integer(), nullable=True),
     sa.Column('goals_for', sa.Integer(), nullable=True),
     sa.Column('goals_against', sa.Integer(), nullable=True),
-    sa.Column('points', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('team_name')
     )
