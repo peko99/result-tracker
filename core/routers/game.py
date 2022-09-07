@@ -3,6 +3,7 @@
 
 from time import sleep
 from typing import Any, List
+from core.schemas.team import TeamCreate
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
@@ -21,12 +22,20 @@ async def create_game(game_in: GameCreate, db: Session = Depends(get_db)) -> Any
         raise HTTPException(
             status_code=400, detail="Home and away team can not be the same!"
         )
-    home_team = crud_team.get(id_=game_in.home_team, db=db)
-    if not home_team:
-        raise HTTPException(status_code=404, detail="Home team not found!")
-    away_team = crud_team.get(id_=game_in.away_team, db=db)
-    if not away_team:
-        raise HTTPException(status_code=404, detail="Away team not found!")
+    if isinstance(game_in.home_team, str):
+        home_team = crud_team.get_by_team_name(team_name=game_in.home_team, db=db)
+        if not home_team:
+            home_team = crud_team.create(obj_in=TeamCreate(team_name=game_in.home_team), db=db)
+        game_in.home_team = home_team.id
+    else:
+        home_team = crud_team.get(id_=game_in.home_team, db=db)
+    if isinstance(game_in.away_team, str):
+        away_team = crud_team.get_by_team_name(team_name=game_in.away_team, db=db)
+        if not away_team:
+            away_team = crud_team.create(obj_in=TeamCreate(team_name=game_in.away_team), db=db)
+        game_in.away_team = away_team.id
+    else:
+        away_team = crud_team.get(id_=game_in.away_team, db=db)
     crud_team.update_stats(
         home_team=home_team, away_team=away_team, game_in=game_in, db=db
     )

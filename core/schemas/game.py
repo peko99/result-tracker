@@ -1,7 +1,7 @@
 # Copyright 2022 Marin Pejcin
 
 
-from typing import Optional
+from typing import Optional, Union
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -12,8 +12,8 @@ class GameBase(BaseModel):
 
 
 class GameCreate(GameBase):
-    home_team: int
-    away_team: int
+    home_team: Union[int, str]
+    away_team: Union[int, str]
     date_played: datetime
 
 
